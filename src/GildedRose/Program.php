@@ -49,9 +49,9 @@ class Program
 {
     private $items = array();
 
-    public static function Main()
+    public static function Main($days = 1)
     {
-        echo "HELLO\n";
+        echo "OMGHAI!\n";
 
         $app = new Program(array(
               new Item(array( 'name' => "+5 Dexterity Vest",'sellIn' => 10,'quality' => 20)),
@@ -66,11 +66,13 @@ class Program
               new Item(array('name' => "Conjured Mana Cake",'sellIn' => 3,'quality' => 6)),
         ));
 
-        $app->UpdateQuality();
-
-        echo sprintf("%50s - %7s - %7s\n", "Name", "SellIn", "Quality");
-        foreach ($app->items as $item) {
-            echo sprintf("%50s - %7d - %7d\n", $item->name, $item->sellIn, $item->quality);
+        for ($i = 1; $i <= $days; $i++) {
+            $app->UpdateQuality();
+            echo "-------- day $i --------\n";
+            echo sprintf("%50s - %7s - %7s\n", "Name", "SellIn", "Quality");
+            foreach ($app->items as $item) {
+                echo sprintf("%50s - %7d - %7d\n", $item->name, $item->sellIn, $item->quality);
+            }
         }
     }
 

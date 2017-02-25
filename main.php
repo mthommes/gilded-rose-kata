@@ -1,6 +1,7 @@
 <?php
 
 require_once "vendor/autoload.php";
-require_once "src/GildedRose/Program.php";
 
-GildedRose\Program::main();
+$days = isset($argv[1]) ? (int) $argv[1] : 1;
+
+GildedRose\Program::main($days);

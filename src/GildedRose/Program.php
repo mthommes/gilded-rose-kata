@@ -84,6 +84,11 @@ class Program
     public function UpdateQuality()
     {
         for ($i = 0; $i < count($this->items); $i++) {
+            if ($this->items[$i]->name == "Aged Brie") {
+                $this->updateAgedBrie($this->items[$i]);
+                continue;
+            }
+
             if ($this->items[$i]->name != "Aged Brie" && $this->items[$i]->name != "Backstage passes to a TAFKAL80ETC concert") {
                 if ($this->items[$i]->quality > 0) {
                     if ($this->items[$i]->name != "Sulfuras, Hand of Ragnaros") {
@@ -131,6 +136,21 @@ class Program
                     }
                 }
             }
+        }
+    }
+
+    public function updateAgedBrie(Item $item)
+    {
+        $item->sellIn -= 1;
+
+        if ($item->quality == 50) {
+            return;
+        }
+
+        $item->quality += 1;
+
+        if ($item->sellIn < 0 && $item->quality < 50) {
+            $item->quality += 1;
         }
     }
 }

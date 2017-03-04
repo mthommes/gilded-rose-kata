@@ -211,37 +211,49 @@ class GildedRoseTest extends TestCase
     public function testUpdateQualityOfConjuredItemBeforeSellDate()
     {
         $item = new Item(['name' => 'Conjured Mana Cake', 'sellIn' => 5, 'quality' => 10]);
-        $this->markTestIncomplete();
+        $this->runProgramWith($item);
+        $this->assertEquals(4, $item->sellIn);
+        $this->assertEquals(8, $item->quality);
     }
 
     public function testUpdateQualityOfConjuredItemBeforeSellDateAtZeroQuality()
     {
         $item = new Item(['name' => 'Conjured Mana Cake', 'sellIn' => 5, 'quality' => 0]);
-        $this->markTestIncomplete();
+        $this->runProgramWith($item);
+        $this->assertEquals(4, $item->sellIn);
+        $this->assertEquals(0, $item->quality);
     }
 
     public function testUpdateQualityOfConjuredItemOnSellDate()
     {
         $item = new Item(['name' => 'Conjured Mana Cake', 'sellIn' => 0, 'quality' => 10]);
-        $this->markTestIncomplete();
+        $this->runProgramWith($item);
+        $this->assertEquals(-1, $item->sellIn);
+        $this->assertEquals(6, $item->quality);
     }
 
     public function testUpdateQualityOfConjuredItemOnSellDateAtZeroQuality()
     {
         $item = new Item(['name' => 'Conjured Mana Cake', 'sellIn' => 0, 'quality' => 0]);
-        $this->markTestIncomplete();
+        $this->runProgramWith($item);
+        $this->assertEquals(-1, $item->sellIn);
+        $this->assertEquals(0, $item->quality);
     }
 
     public function testUpdateQualityOfConjuredItemAfterSellDate()
     {
         $item = new Item(['name' => 'Conjured Mana Cake', 'sellIn' => -10, 'quality' => 10]);
-        $this->markTestIncomplete();
+        $this->runProgramWith($item);
+        $this->assertEquals(-11, $item->sellIn);
+        $this->assertEquals(6, $item->quality);
     }
 
     public function testUpdateQualityOfConjuredItemAfterSellDateAtZeroQuality()
     {
         $item = new Item(['name' => 'Conjured Mana Cake', 'sellIn' => -10, 'quality' => 0]);
-        $this->markTestIncomplete();
+        $this->runProgramWith($item);
+        $this->assertEquals(-11, $item->sellIn);
+        $this->assertEquals(0, $item->quality);
     }
 
     private function runProgramWith(Item $item)

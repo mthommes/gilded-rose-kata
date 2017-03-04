@@ -50,7 +50,8 @@ class Program
     const CONFIG_ITEMCLASS = [
         "Aged Brie" => AgedUpdater::class,
         "Sulfuras, Hand of Ragnaros" => SulfurasUpdater::class,
-        "Backstage passes to a TAFKAL80ETC concert" => BackstagePassUpdater::class
+        "Backstage passes to a TAFKAL80ETC concert" => BackstagePassUpdater::class,
+        "Conjured Mana Cake" => ConjuredUpdater::class
     ];
 
     private $items = array();
@@ -180,6 +181,24 @@ class NormalUpdater extends ItemUpdater
 
         if ($this->item->sellIn < 0) {
             $this->item->quality -= 1;
+        }
+    }
+}
+
+class ConjuredUpdater extends ItemUpdater
+{
+    public function update()
+    {
+        $this->item->sellIn -= 1;
+
+        if ($this->item->quality == 0) {
+            return;
+        }
+
+        $this->item->quality -= 2;
+
+        if ($this->item->sellIn < 0) {
+            $this->item->quality -= 2;
         }
     }
 }

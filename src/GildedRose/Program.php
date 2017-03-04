@@ -94,6 +94,9 @@ class Program
                 case "Backstage passes to a TAFKAL80ETC concert":
                     $this->updateBackstagePass($this->items[$i]);
                     return;
+                default:
+                    $this->updateNormalItem($this->items[$i]);
+                    return;
             }
 
             if ($this->items[$i]->name != "Aged Brie" && $this->items[$i]->name != "Backstage passes to a TAFKAL80ETC concert") {
@@ -187,6 +190,21 @@ class Program
 
         if ($item->sellIn < 5 && $item->quality < 50) {
             $item->quality += 1;
+        }
+    }
+
+    public function updateNormalItem(Item $item)
+    {
+        $item->sellIn -= 1;
+
+        if ($item->quality == 0) {
+            return;
+        }
+
+        $item->quality -= 1;
+
+        if ($item->sellIn < 0) {
+            $item->quality -= 1;
         }
     }
 }

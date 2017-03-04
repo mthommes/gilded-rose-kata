@@ -208,6 +208,42 @@ class GildedRoseTest extends TestCase
         $this->assertEquals(0, $item->quality);
     }
 
+    public function testUpdateQualityOfConjuredItemBeforeSellDate()
+    {
+        $item = new Item(['name' => 'Conjured Mana Cake', 'sellIn' => 5, 'quality' => 10]);
+        $this->markTestIncomplete();
+    }
+
+    public function testUpdateQualityOfConjuredItemBeforeSellDateAtZeroQuality()
+    {
+        $item = new Item(['name' => 'Conjured Mana Cake', 'sellIn' => 5, 'quality' => 0]);
+        $this->markTestIncomplete();
+    }
+
+    public function testUpdateQualityOfConjuredItemOnSellDate()
+    {
+        $item = new Item(['name' => 'Conjured Mana Cake', 'sellIn' => 0, 'quality' => 10]);
+        $this->markTestIncomplete();
+    }
+
+    public function testUpdateQualityOfConjuredItemOnSellDateAtZeroQuality()
+    {
+        $item = new Item(['name' => 'Conjured Mana Cake', 'sellIn' => 0, 'quality' => 0]);
+        $this->markTestIncomplete();
+    }
+
+    public function testUpdateQualityOfConjuredItemAfterSellDate()
+    {
+        $item = new Item(['name' => 'Conjured Mana Cake', 'sellIn' => -10, 'quality' => 10]);
+        $this->markTestIncomplete();
+    }
+
+    public function testUpdateQualityOfConjuredItemAfterSellDateAtZeroQuality()
+    {
+        $item = new Item(['name' => 'Conjured Mana Cake', 'sellIn' => -10, 'quality' => 0]);
+        $this->markTestIncomplete();
+    }
+
     private function runProgramWith(Item $item)
     {
         $sut = new Program([$item]);

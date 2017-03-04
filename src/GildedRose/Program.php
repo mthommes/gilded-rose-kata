@@ -134,6 +134,16 @@ abstract class ItemUpdater
         $this->item->quality += $amount;
     }
 
+    public function decreaseQuality($amount)
+    {
+        if ($this->item->quality - $amount < 0) {
+            $this->item->quality = 0;
+            return;
+        }
+
+        $this->item->quality -= $amount;
+    }
+
     public function isAfterSellDate()
     {
         return $this->item->sellIn < 0;
@@ -148,7 +158,7 @@ class AgedUpdater extends ItemUpdater
             return $this->increaseQuality(2);
         }
 
-        return $this->increaseQuality(1);
+        $this->increaseQuality(1);
     }
 }
 
@@ -194,15 +204,11 @@ class NormalUpdater extends ItemUpdater
 {
     public function updateQuality()
     {
-        if ($this->item->quality == 0) {
-            return;
-        }
-
         if ($this->isAfterSellDate()) {
-            return $this->item->quality -= 2;
+            return $this->decreaseQuality(2);
         }
 
-        $this->item->quality -= 1;
+        $this->decreaseQuality(1);
     }
 }
 
@@ -210,14 +216,10 @@ class ConjuredUpdater extends ItemUpdater
 {
     public function updateQuality()
     {
-        if ($this->item->quality == 0) {
-            return;
-        }
-
         if ($this->isAfterSellDate()) {
-            return $this->item->quality -= 4;
+            return $this->decreaseQuality(4);
         }
 
-        $this->item->quality -= 2;
+        $this->decreaseQuality(2);
     }
 }

@@ -91,6 +91,9 @@ class Program
                 case "Sulfuras, Hand of Ragnaros":
                     $this->updateSulfuras($this->items[$i]);
                     return;
+                case "Backstage passes to a TAFKAL80ETC concert":
+                    $this->updateBackstagePass($this->items[$i]);
+                    return;
             }
 
             if ($this->items[$i]->name != "Aged Brie" && $this->items[$i]->name != "Backstage passes to a TAFKAL80ETC concert") {
@@ -161,5 +164,29 @@ class Program
     public function updateSulfuras(Item $item)
     {
         // Sulfuras never has to be sold and never changes quality
+    }
+
+    public function updateBackstagePass(Item $item)
+    {
+        $item->sellIn -= 1;
+
+        if ($item->sellIn < 0) {
+            $item->quality = 0;
+            return;
+        }
+
+        if ($item->quality == 50) {
+            return;
+        }
+
+        $item->quality += 1;
+
+        if ($item->sellIn < 10 && $item->quality < 50) {
+            $item->quality += 1;
+        }
+
+        if ($item->sellIn < 5 && $item->quality < 50) {
+            $item->quality += 1;
+        }
     }
 }

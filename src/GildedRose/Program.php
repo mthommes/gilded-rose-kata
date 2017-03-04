@@ -47,6 +47,12 @@ namespace GildedRose;
  */
 class Program
 {
+    const CONFIG_ITEMCLASS = [
+        "Aged Brie" => AgedUpdater::class,
+        "Sulfuras, Hand of Ragnaros" => SulfurasUpdater::class,
+        "Backstage passes to a TAFKAL80ETC concert" => BackstagePassUpdater::class
+    ];
+
     private $items = array();
 
     public static function Main($days = 1)
@@ -83,26 +89,19 @@ class Program
 
     public function UpdateQuality()
     {
-        for ($i = 0; $i < count($this->items); $i++) {
-            switch ($this->items[$i]->name) {
-                case "Aged Brie":
-                    (new AgedUpdater($this->items[$i]))->update();
-                    return;
-                case "Sulfuras, Hand of Ragnaros":
-                    (new ItemUpdater($this->items[$i]))->update();
-                    return;
-                case "Backstage passes to a TAFKAL80ETC concert":
-                    (new BackstagePassUpdater($this->items[$i]))->update();
-                    return;
-                default:
-                    (new NormalUpdater($this->items[$i]))->update();
-                    return;
-            }
+        $config = self::CONFIG_ITEMCLASS;
+
+        foreach ($this->items as $item) {
+            $className = isset($config[$item->name])
+                ? $config[$item->name]
+                : NormalUpdater::class;
+            $updater = new $className($item);
+            $updater->update();
         }
     }
 }
 
-class ItemUpdater
+abstract class ItemUpdater
 {
     protected $item;
 
@@ -111,9 +110,7 @@ class ItemUpdater
         $this->item = $item;
     }
 
-    public function update()
-    {
-    }
+    abstract public function update();
 }
 
 class AgedUpdater extends ItemUpdater
@@ -131,6 +128,14 @@ class AgedUpdater extends ItemUpdater
         if ($this->item->sellIn < 0 && $this->item->quality < 50) {
             $this->item->quality += 1;
         }
+    }
+}
+
+class SulfurasUpdater extends ItemUpdater
+{
+    public function update()
+    {
+        // Sulfuras never has to be sold and never changes quality
     }
 }
 

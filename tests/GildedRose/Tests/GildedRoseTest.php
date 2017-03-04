@@ -96,6 +96,22 @@ class GildedRoseTest extends TestCase
         $this->assertEquals(50, $item->quality);
     }
 
+    public function testUpdateQualityOfSulfurasOnSellDate()
+    {
+        $item = new Item(['name' => 'Sulfuras, Hand of Ragnaros', 'sellIn' => 0, 'quality' => 80]);
+        $this->runProgramWith($item);
+        $this->assertEquals(0, $item->sellIn);
+        $this->assertEquals(80, $item->quality);
+    }
+
+    public function testUpdateQualityOfSulfurasAfterSellDate()
+    {
+        $item = new Item(['name' => 'Sulfuras, Hand of Ragnaros', 'sellIn' => -5, 'quality' => 80]);
+        $this->runProgramWith($item);
+        $this->assertEquals(-5, $item->sellIn);
+        $this->assertEquals(80, $item->quality);
+    }
+
     private function runProgramWith(Item $item)
     {
         $sut = new Program([$item]);

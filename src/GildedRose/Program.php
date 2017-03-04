@@ -49,7 +49,7 @@ class Program
 {
     const CONFIG_ITEMCLASS = [
         "Aged Brie" => AgedUpdater::class,
-        "Sulfuras, Hand of Ragnaros" => SulfurasUpdater::class,
+        "Sulfuras, Hand of Ragnaros" => NullUpdater::class,
         "Backstage passes to a TAFKAL80ETC concert" => BackstagePassUpdater::class,
         "Conjured Mana Cake" => ConjuredUpdater::class
     ];
@@ -162,16 +162,16 @@ class AgedUpdater extends ItemUpdater
     }
 }
 
-class SulfurasUpdater extends ItemUpdater
+class NullUpdater extends ItemUpdater
 {
     public function updateSellIn()
     {
-        // Sulfuras never has to be sold
+        // never has to be sold
     }
 
     public function updateQuality()
     {
-        // Sulfuras never changes quality
+        // never changes quality
     }
 }
 

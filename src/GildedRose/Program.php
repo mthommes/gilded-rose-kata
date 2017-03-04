@@ -86,31 +86,38 @@ class Program
         for ($i = 0; $i < count($this->items); $i++) {
             switch ($this->items[$i]->name) {
                 case "Aged Brie":
-                    (new AgedItem($this->items[$i]))->update();
+                    (new AgedUpdater($this->items[$i]))->update();
                     return;
                 case "Sulfuras, Hand of Ragnaros":
-                    (new SulfurasItem($this->items[$i]))->update();
+                    (new ItemUpdater($this->items[$i]))->update();
                     return;
                 case "Backstage passes to a TAFKAL80ETC concert":
-                    (new BackstagePassItem($this->items[$i]))->update();
+                    (new BackstagePassUpdater($this->items[$i]))->update();
                     return;
                 default:
-                    (new NormalItem($this->items[$i]))->update();
+                    (new NormalUpdater($this->items[$i]))->update();
                     return;
             }
         }
     }
 }
 
-class AgedItem
+class ItemUpdater
 {
-    private $item;
+    protected $item;
 
     public function __construct(Item $item)
     {
         $this->item = $item;
     }
 
+    public function update()
+    {
+    }
+}
+
+class AgedUpdater extends ItemUpdater
+{
     public function update()
     {
         $this->item->sellIn -= 1;
@@ -127,23 +134,8 @@ class AgedItem
     }
 }
 
-class SulfurasItem
+class BackstagePassUpdater extends ItemUpdater
 {
-    public function update()
-    {
-        // Sulfuras never has to be sold and never changes quality
-    }
-}
-
-class BackstagePassItem
-{
-    private $item;
-
-    public function __construct(Item $item)
-    {
-        $this->item = $item;
-    }
-
     public function update()
     {
         $this->item->sellIn -= 1;
@@ -169,15 +161,8 @@ class BackstagePassItem
     }
 }
 
-class NormalItem
+class NormalUpdater extends ItemUpdater
 {
-    private $item;
-
-    public function __construct(Item $item)
-    {
-        $this->item = $item;
-    }
-
     public function update()
     {
         $this->item->sellIn -= 1;

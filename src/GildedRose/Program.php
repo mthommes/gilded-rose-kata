@@ -89,7 +89,7 @@ class Program
                     (new AgedItem($this->items[$i]))->update();
                     return;
                 case "Sulfuras, Hand of Ragnaros":
-                    $this->updateSulfuras($this->items[$i]);
+                    (new SulfurasItem($this->items[$i]))->update();
                     return;
                 case "Backstage passes to a TAFKAL80ETC concert":
                     $this->updateBackstagePass($this->items[$i]);
@@ -99,11 +99,6 @@ class Program
                     return;
             }
         }
-    }
-
-    public function updateSulfuras(Item $item)
-    {
-        // Sulfuras never has to be sold and never changes quality
     }
 
     public function updateBackstagePass(Item $item)
@@ -168,5 +163,13 @@ class AgedItem
         if ($this->item->sellIn < 0 && $this->item->quality < 50) {
             $this->item->quality += 1;
         }
+    }
+}
+
+class SulfurasItem
+{
+    public function update()
+    {
+        // Sulfuras never has to be sold and never changes quality
     }
 }

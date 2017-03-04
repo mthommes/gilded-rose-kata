@@ -84,9 +84,13 @@ class Program
     public function UpdateQuality()
     {
         for ($i = 0; $i < count($this->items); $i++) {
-            if ($this->items[$i]->name == "Aged Brie") {
-                $this->updateAgedBrie($this->items[$i]);
-                continue;
+            switch ($this->items[$i]->name) {
+                case "Aged Brie":
+                    $this->updateAgedBrie($this->items[$i]);
+                    return;
+                case "Sulfuras, Hand of Ragnaros":
+                    $this->updateSulfuras($this->items[$i]);
+                    return;
             }
 
             if ($this->items[$i]->name != "Aged Brie" && $this->items[$i]->name != "Backstage passes to a TAFKAL80ETC concert") {
@@ -152,5 +156,10 @@ class Program
         if ($item->sellIn < 0 && $item->quality < 50) {
             $item->quality += 1;
         }
+    }
+
+    public function updateSulfuras(Item $item)
+    {
+        // Sulfuras never has to be sold and never changes quality
     }
 }

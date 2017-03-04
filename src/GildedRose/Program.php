@@ -86,7 +86,7 @@ class Program
         for ($i = 0; $i < count($this->items); $i++) {
             switch ($this->items[$i]->name) {
                 case "Aged Brie":
-                    $this->updateAgedBrie($this->items[$i]);
+                    (new AgedItem($this->items[$i]))->update();
                     return;
                 case "Sulfuras, Hand of Ragnaros":
                     $this->updateSulfuras($this->items[$i]);
@@ -98,21 +98,6 @@ class Program
                     $this->updateNormalItem($this->items[$i]);
                     return;
             }
-        }
-    }
-
-    public function updateAgedBrie(Item $item)
-    {
-        $item->sellIn -= 1;
-
-        if ($item->quality == 50) {
-            return;
-        }
-
-        $item->quality += 1;
-
-        if ($item->sellIn < 0 && $item->quality < 50) {
-            $item->quality += 1;
         }
     }
 
@@ -157,6 +142,31 @@ class Program
 
         if ($item->sellIn < 0) {
             $item->quality -= 1;
+        }
+    }
+}
+
+class AgedItem
+{
+    private $item;
+
+    public function __construct(Item $item)
+    {
+        $this->item = $item;
+    }
+
+    public function update()
+    {
+        $this->item->sellIn -= 1;
+
+        if ($this->item->quality == 50) {
+            return;
+        }
+
+        $this->item->quality += 1;
+
+        if ($this->item->sellIn < 0 && $this->item->quality < 50) {
+            $this->item->quality += 1;
         }
     }
 }

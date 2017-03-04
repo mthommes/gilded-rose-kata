@@ -111,41 +111,59 @@ abstract class ItemUpdater
         $this->item = $item;
     }
 
-    abstract public function update();
+    public function update()
+    {
+        $this->updateSellIn();
+        $this->updateQuality();
+    }
+
+    public function updateSellIn()
+    {
+        $this->item->sellIn -= 1;
+    }
+
+    abstract public function updateQuality();
+
+    public function increaseQuality($amount)
+    {
+        if ($this->item->quality + $amount > 50) {
+            $this->item->quality = 50;
+            return;
+        }
+
+        $this->item->quality += $amount;
+    }
 }
 
 class AgedUpdater extends ItemUpdater
 {
-    public function update()
+    public function updateQuality()
     {
-        $this->item->sellIn -= 1;
-
-        if ($this->item->quality == 50) {
-            return;
-        }
-
-        $this->item->quality += 1;
-
-        if ($this->item->sellIn < 0 && $this->item->quality < 50) {
-            $this->item->quality += 1;
+        if ($this->item->sellIn > 0) {
+            return $this->increaseQuality(1);
+        } else {
+            return $this->increaseQuality(2);
         }
     }
 }
 
 class SulfurasUpdater extends ItemUpdater
 {
-    public function update()
+    public function updateSellIn()
     {
-        // Sulfuras never has to be sold and never changes quality
+        // Sulfuras never has to be sold
+    }
+
+    public function updateQuality()
+    {
+        // Sulfuras never changes quality
     }
 }
 
 class BackstagePassUpdater extends ItemUpdater
 {
-    public function update()
+    public function updateQuality()
     {
-        $this->item->sellIn -= 1;
-
         if ($this->item->sellIn < 0) {
             $this->item->quality = 0;
             return;
@@ -169,10 +187,8 @@ class BackstagePassUpdater extends ItemUpdater
 
 class NormalUpdater extends ItemUpdater
 {
-    public function update()
+    public function updateQuality()
     {
-        $this->item->sellIn -= 1;
-
         if ($this->item->quality == 0) {
             return;
         }
@@ -187,10 +203,8 @@ class NormalUpdater extends ItemUpdater
 
 class ConjuredUpdater extends ItemUpdater
 {
-    public function update()
+    public function updateQuality()
     {
-        $this->item->sellIn -= 1;
-
         if ($this->item->quality == 0) {
             return;
         }

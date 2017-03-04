@@ -95,24 +95,9 @@ class Program
                     (new BackstagePassItem($this->items[$i]))->update();
                     return;
                 default:
-                    $this->updateNormalItem($this->items[$i]);
+                    (new NormalItem($this->items[$i]))->update();
                     return;
             }
-        }
-    }
-
-    public function updateNormalItem(Item $item)
-    {
-        $item->sellIn -= 1;
-
-        if ($item->quality == 0) {
-            return;
-        }
-
-        $item->quality -= 1;
-
-        if ($item->sellIn < 0) {
-            $item->quality -= 1;
         }
     }
 }
@@ -180,6 +165,31 @@ class BackstagePassItem
 
         if ($this->item->sellIn < 5 && $this->item->quality < 50) {
             $this->item->quality += 1;
+        }
+    }
+}
+
+class NormalItem
+{
+    private $item;
+
+    public function __construct(Item $item)
+    {
+        $this->item = $item;
+    }
+
+    public function update()
+    {
+        $this->item->sellIn -= 1;
+
+        if ($this->item->quality == 0) {
+            return;
+        }
+
+        $this->item->quality -= 1;
+
+        if ($this->item->sellIn < 0) {
+            $this->item->quality -= 1;
         }
     }
 }

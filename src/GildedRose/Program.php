@@ -180,23 +180,33 @@ class BackstagePassUpdater extends ItemUpdater
     public function updateQuality()
     {
         if ($this->isAfterSellDate()) {
-            $this->item->quality = 0;
-            return;
+            return $this->decreaseQualityToZero();
         }
 
-        if ($this->item->quality == 50) {
-            return;
+        if ($this->thereAreFiveDaysOrLess()) {
+            return $this->increaseQuality(3);
         }
 
-        $this->item->quality += 1;
-
-        if ($this->item->sellIn < 10 && $this->item->quality < 50) {
-            $this->item->quality += 1;
+        if ($this->thereAreTenDaysOrLess()) {
+            return $this->increaseQuality(2);
         }
 
-        if ($this->item->sellIn < 5 && $this->item->quality < 50) {
-            $this->item->quality += 1;
-        }
+        $this->increaseQuality(1);
+    }
+
+    private function decreaseQualityToZero()
+    {
+        $this->item->quality = 0;
+    }
+
+    private function thereAreFiveDaysOrLess()
+    {
+        return $this->item->sellIn < 5;
+    }
+
+    private function thereAreTenDaysOrLess()
+    {
+        return $this->item->sellIn < 10;
     }
 }
 

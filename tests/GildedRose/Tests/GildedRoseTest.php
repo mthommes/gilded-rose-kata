@@ -112,6 +112,102 @@ class GildedRoseTest extends TestCase
         $this->assertEquals(80, $item->quality);
     }
 
+    public function testUpdateQualityOfBackstagePassLongBeforeSellDate()
+    {
+        $item = new Item(['name' => 'Backstage passes to a TAFKAL80ETC concert', 'sellIn' => 11, 'quality' => 10]);
+        $this->runProgramWith($item);
+        $this->assertEquals(10, $item->sellIn);
+        $this->assertEquals(11, $item->quality);
+    }
+
+    public function testUpdateQualityOfBackstagePassLongBeforeSellDateAtMaxQuality()
+    {
+        $item = new Item(['name' => 'Backstage passes to a TAFKAL80ETC concert', 'sellIn' => 11, 'quality' => 50]);
+        $this->runProgramWith($item);
+        $this->assertEquals(10, $item->sellIn);
+        $this->assertEquals(50, $item->quality);
+    }
+
+    public function testUpdateQualityOfBackstagePassMediumCloseToSellDateUpperBound()
+    {
+        $item = new Item(['name' => 'Backstage passes to a TAFKAL80ETC concert', 'sellIn' => 10, 'quality' => 10]);
+        $this->runProgramWith($item);
+        $this->assertEquals(9, $item->sellIn);
+        $this->assertEquals(12, $item->quality);
+    }
+
+    public function testUpdateQualityOfBackstagePassMediumCloseToSellDateUpperBoundAtMaxQuality()
+    {
+        $item = new Item(['name' => 'Backstage passes to a TAFKAL80ETC concert', 'sellIn' => 10, 'quality' => 50]);
+        $this->runProgramWith($item);
+        $this->assertEquals(9, $item->sellIn);
+        $this->assertEquals(50, $item->quality);
+    }
+
+    public function testUpdateQualityOfBackstagePassMediumCloseToSellDateLowerBound()
+    {
+        $item = new Item(['name' => 'Backstage passes to a TAFKAL80ETC concert', 'sellIn' => 6, 'quality' => 10]);
+        $this->runProgramWith($item);
+        $this->assertEquals(5, $item->sellIn);
+        $this->assertEquals(12, $item->quality);
+    }
+
+    public function testUpdateQualityOfBackstagePassMediumCloseToSellDateLowerBoundAtMaxQuality()
+    {
+        $item = new Item(['name' => 'Backstage passes to a TAFKAL80ETC concert', 'sellIn' => 6, 'quality' => 50]);
+        $this->runProgramWith($item);
+        $this->assertEquals(5, $item->sellIn);
+        $this->assertEquals(50, $item->quality);
+    }
+
+    public function testUpdateQualityOfBackstagePassVeryCloseToSellDateUpperBound()
+    {
+        $item = new Item(['name' => 'Backstage passes to a TAFKAL80ETC concert', 'sellIn' => 5, 'quality' => 10]);
+        $this->runProgramWith($item);
+        $this->assertEquals(4, $item->sellIn);
+        $this->assertEquals(13, $item->quality);
+    }
+
+    public function testUpdateQualityOfBackstagePassVeryCloseToSellDateUpperBoundAtMaxQuality()
+    {
+        $item = new Item(['name' => 'Backstage passes to a TAFKAL80ETC concert', 'sellIn' => 5, 'quality' => 50]);
+        $this->runProgramWith($item);
+        $this->assertEquals(4, $item->sellIn);
+        $this->assertEquals(50, $item->quality);
+    }
+
+    public function testUpdateQualityOfBackstagePassVeryCloseToSellDateLowerBound()
+    {
+        $item = new Item(['name' => 'Backstage passes to a TAFKAL80ETC concert', 'sellIn' => 1, 'quality' => 10]);
+        $this->runProgramWith($item);
+        $this->assertEquals(0, $item->sellIn);
+        $this->assertEquals(13, $item->quality);
+    }
+
+    public function testUpdateQualityOfBackstagePassVeryCloseToSellDateLowerBoundAtMaxQuality()
+    {
+        $item = new Item(['name' => 'Backstage passes to a TAFKAL80ETC concert', 'sellIn' => 1, 'quality' => 50]);
+        $this->runProgramWith($item);
+        $this->assertEquals(0, $item->sellIn);
+        $this->assertEquals(50, $item->quality);
+    }
+
+    public function testUpdateQualityOfBackstagePassOnSellDate()
+    {
+        $item = new Item(['name' => 'Backstage passes to a TAFKAL80ETC concert', 'sellIn' => 0, 'quality' => 50]);
+        $this->runProgramWith($item);
+        $this->assertEquals(-1, $item->sellIn);
+        $this->assertEquals(0, $item->quality);
+    }
+
+    public function testUpdateQualityOfBackstagePassAfterSellDate()
+    {
+        $item = new Item(['name' => 'Backstage passes to a TAFKAL80ETC concert', 'sellIn' => 0, 'quality' => 50]);
+        $this->runProgramWith($item);
+        $this->assertEquals(-1, $item->sellIn);
+        $this->assertEquals(0, $item->quality);
+    }
+
     private function runProgramWith(Item $item)
     {
         $sut = new Program([$item]);

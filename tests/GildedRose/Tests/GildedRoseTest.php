@@ -12,12 +12,12 @@ class GildedRoseTest extends TestCase
 
 	public function __construct()
 	{
-		$this->items[] = new Item(array('name' => "+5 Dexterity Vest",'sellIn' => 10,'quality' => 20));
-		$this->items[] = new Item(array('name' => "Aged Brie",'sellIn' => 2,'quality' => 0));
-		$this->items[] = new Item(array('name' => "Elixir of the Mongoose",'sellIn' => 5,'quality' => 7));
-		$this->items[] = new Item(array('name' => "Sulfuras, Hand of Ragnaros",'sellIn' => 0,'quality' => 80));
-		$this->items[] = new Item(array('name' => "Backstage passes to a TAFKAL80ETC concert", 'sellIn' => 15, 'quality' => 20));
-		$this->items[] = new Item(array('name' => "Conjured Mana Cake",'sellIn' => 3,'quality' => 6));
+		$this->items[] = array('name' => "+5 Dexterity Vest",'sellIn' => 10,'quality' => 20);
+		$this->items[] = array('name' => "Aged Brie",'sellIn' => 2,'quality' => 0);
+		$this->items[] = array('name' => "Elixir of the Mongoose",'sellIn' => 5,'quality' => 7);
+		$this->items[] = array('name' => "Sulfuras, Hand of Ragnaros",'sellIn' => 0,'quality' => 80);
+		$this->items[] = array('name' => "Backstage passes to a TAFKAL80ETC concert", 'sellIn' => 15, 'quality' => 20);
+		$this->items[] = array('name' => "Conjured Mana Cake",'sellIn' => 3,'quality' => 6);
 	}
 
 	public function testItPrintsAllItemsFromMain()
@@ -27,9 +27,10 @@ class GildedRoseTest extends TestCase
 		$program = new Program($this->items, 100);
 	}
 
-	public function testQualityDegradation()
+	/*public function testQualityDegradation()
 	{
-		//$program = Program::main(2);
+		$program = new Program($this->items, 1);
+//print_r($program);exit;
 		//$this->assertEquals(1, 0);
-	}	
+	}*/
 }

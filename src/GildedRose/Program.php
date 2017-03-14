@@ -112,14 +112,14 @@ class Program extends Item
 		}
 		
 		public function generateDisplay() {
-				echo "OMGHAI!\n";
-        for ($i = 1; $i <= $this->days; $i++) {
-            $this->calculateQuality($this->items);
-            echo "-------- day $i --------\n";
-            echo sprintf("%50s - %7s - %7s\n", "Name", "SellIn", "Quality");
-            foreach ($this->items as $item) {
-                echo sprintf("%50s - %7d - %7d\n", $item->name, $item->sellIn, $item->quality);
-            }
-        }
+			echo "OMGHAI!\n";
+			for ($i = 1; $i <= $this->days; $i++) {
+				$this->calculateQuality($this->items);
+				echo "-------- day $i --------\n";
+				echo sprintf("%50s - %7s - %7s\n", "Name", "SellIn", "Quality");
+				foreach ($this->items as $item) {
+					echo sprintf("%50s - %7d - %7d\n", $item->name, $item->sellIn, $item->quality);
+				}
+			}
 		}
 }

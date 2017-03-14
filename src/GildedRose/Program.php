@@ -61,53 +61,53 @@ class Program extends Item
 
 		public function calculateQuality() {
 			foreach ($this->items as $name => $info) {
-					if ($info->name != "Aged Brie" && $info->name != "Backstage passes to a TAFKAL80ETC concert") {
+				if ($info->name != "Aged Brie" && $info->name != "Backstage passes to a TAFKAL80ETC concert") {
+					if ($info->quality > 0) {
+						if ($info->name != "Sulfuras, Hand of Ragnaros") {
+							$this->items[$name]->quality = $info->quality - 1;
+						}
+					}
+				} else {
+					if ($info->quality < 50) {
+						$info->quality = $info->quality + 1;
+
+						if ($info->name == "Backstage passes to a TAFKAL80ETC concert") {
+							if ($info->sellIn < 11) {
+								if ($info->quality < 50) {
+									$this->items[$name]->quality = $info->quality + 1;
+								}
+							}
+
+							if ($info->sellIn < 6) {
+								if ($info->quality < 50) {
+									$this->items[$name]->quality = $info->quality + 1;
+								}
+							}
+						}
+					}
+				}
+
+				if ($info->name != "Sulfuras, Hand of Ragnaros") {
+					$this->items[$name]->sellIn = $info->sellIn - 1;
+				}
+
+				if ($info->sellIn < 0) {
+					if ($info->name != "Aged Brie") {
+						if ($info->name != "Backstage passes to a TAFKAL80ETC concert") {
 							if ($info->quality > 0) {
-									if ($info->name != "Sulfuras, Hand of Ragnaros") {
-											$this->items[$name]->quality = $info->quality - 1;
-									}
+								if ($info->name != "Sulfuras, Hand of Ragnaros") {
+									$this->items[$name]->quality = $info->quality - 1;
+								}
 							}
+						} else {
+							$this->items[$name]->quality = $info->quality - $info->quality;
+						}
 					} else {
-							if ($info->quality < 50) {
-									$info->quality = $info->quality + 1;
-
-									if ($info->name == "Backstage passes to a TAFKAL80ETC concert") {
-											if ($info->sellIn < 11) {
-													if ($info->quality < 50) {
-															$this->items[$name]->quality = $info->quality + 1;
-													}
-											}
-
-											if ($info->sellIn < 6) {
-													if ($info->quality < 50) {
-															$this->items[$name]->quality = $info->quality + 1;
-													}
-											}
-									}
-							}
+						if ($info->quality < 50) {
+							$this->items[$name]->quality = $info->quality + 1;
+						}
 					}
-
-					if ($info->name != "Sulfuras, Hand of Ragnaros") {
-							$this->items[$name]->sellIn = $info->sellIn - 1;
-					}
-
-					if ($info->sellIn < 0) {
-							if ($info->name != "Aged Brie") {
-									if ($info->name != "Backstage passes to a TAFKAL80ETC concert") {
-											if ($info->quality > 0) {
-													if ($info->name != "Sulfuras, Hand of Ragnaros") {
-															$this->items[$name]->quality = $info->quality - 1;
-													}
-											}
-									} else {
-											$this->items[$name]->quality = $info->quality - $info->quality;
-									}
-							} else {
-									if ($info->quality < 50) {
-											$this->items[$name]->quality = $info->quality + 1;
-									}
-							}
-					}
+				}
 			}
 		}
 		

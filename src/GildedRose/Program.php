@@ -46,76 +46,91 @@ namespace GildedRose;
  * it never alters.
  */
 
+function dbg($var, $continue = 0, $element = "pre") {
+	echo "<" . $element . ">";
+	echo "Vartype: " . gettype($var) . "\n";
+	if ( is_array($var) ) echo "Elements: " . count($var) . "\n\n";
+	elseif ( is_string($var) ) echo "Length: " . strlen($var) . "\n\n";
+	print_r($var);
+	echo "</" . $element . ">";
+	if (!$continue) exit();
+}
+
 class Program extends Item
 {
     private $items = array();
-    private $days;
 
     public function __construct(array $items, $days = 1) {
 			foreach ($items as $item) {
 				$this->items[$item["name"]] = new Item($item);
 			}
-			$this->days = $days;
-			$this->generateDisplay();
+			$this->generateDisplay($days);
     }
 
-		public function calculateQuality() {
+		public function getItems() {
+			return $this->items;
+		}
+
+		public function updateQuality() {
 			foreach ($this->items as $name => $info) {
-				if ($info->name != "Aged Brie" && $info->name != "Backstage passes to a TAFKAL80ETC concert") {
+				if ($name != "Aged Brie" && $name != "Backstage passes to a TAFKAL80ETC concert") {
 					if ($info->quality > 0) {
-						if ($info->name != "Sulfuras, Hand of Ragnaros") {
-							$this->items[$name]->quality = $info->quality - 1;
+						if ($name != "Sulfuras, Hand of Ragnaros") {
+							$info->quality = $info->quality - 1;
 						}
 					}
 				} else {
 					if ($info->quality < 50) {
 						$info->quality = $info->quality + 1;
 
-						if ($info->name == "Backstage passes to a TAFKAL80ETC concert") {
+						if ($name == "Backstage passes to a TAFKAL80ETC concert") {
 							if ($info->sellIn < 11) {
 								if ($info->quality < 50) {
-									$this->items[$name]->quality = $info->quality + 1;
+									$info->quality = $info->quality + 1;
 								}
 							}
 
 							if ($info->sellIn < 6) {
 								if ($info->quality < 50) {
-									$this->items[$name]->quality = $info->quality + 1;
+									$info->quality = $info->quality + 1;
 								}
 							}
 						}
 					}
 				}
 
-				if ($info->name != "Sulfuras, Hand of Ragnaros") {
-					$this->items[$name]->sellIn = $info->sellIn - 1;
+				if ($name != "Sulfuras, Hand of Ragnaros") {
+					$info->sellIn = $info->sellIn - 1;
 				}
 
 				if ($info->sellIn < 0) {
-					if ($info->name != "Aged Brie") {
-						if ($info->name != "Backstage passes to a TAFKAL80ETC concert") {
+					if ($name != "Aged Brie") {
+						if ($name != "Backstage passes to a TAFKAL80ETC concert") {
 							if ($info->quality > 0) {
-								if ($info->name != "Sulfuras, Hand of Ragnaros") {
-									$this->items[$name]->quality = $info->quality - 1;
+								if ($name != "Sulfuras, Hand of Ragnaros") {
+									$info->quality = $info->quality - 1;
 								}
 							}
 						} else {
-							$this->items[$name]->quality = $info->quality - $info->quality;
+							$info->quality = $info->quality - $info->quality;
 						}
 					} else {
 						if ($info->quality < 50) {
-							$this->items[$name]->quality = $info->quality + 1;
+							$info->quality = $info->quality + 1;
 						}
 					}
 				}
+				// Set the modified item info on the global array.
+				$this->items[$name] = $info;
 			}
 		}
-		
-		public function generateDisplay() {
+
+		public function generateDisplay($days) {
 			echo "OMGHAI!\n";
-			for ($i = 1; $i <= $this->days; $i++) {
-				$this->calculateQuality($this->items);
-				echo "-------- day $i --------\n";
+			// For each day, run the end-of-day routine.
+			for ($day = 1; $day <= $days; $day++) {
+				$this->updateQuality();
+				echo "-------- day $day --------\n";
 				echo sprintf("%50s - %7s - %7s\n", "Name", "SellIn", "Quality");
 				foreach ($this->items as $item) {
 					echo sprintf("%50s - %7d - %7d\n", $item->name, $item->sellIn, $item->quality);

@@ -76,7 +76,7 @@ class GildedRoseTest extends TestCase
 		$program = new Program($this->items, 3);
 		// And I fetch the updated items
 		$items = $program->getItems();
-		// And the test item
+		// And I grab the test item
 		$item = $items["Test 1"];
 		// Then the test item should have the correct sellIn and quality
 		assert($item->sellIn == -2, "sellIn check");
@@ -86,10 +86,24 @@ class GildedRoseTest extends TestCase
 	/**
 	 * "The Quality of an item is never negative"
 	 */
-	/*public function testQualityNeverNegative()
+	public function testQualityNeverNegative()
 	{
-
-	}*/
+		// Given a new item to test
+		$this->items["Test 1"] = array(
+			"name" => "Test 1",
+			"sellIn" => 10,
+			"quality" => 2
+		);
+		// When I run the program for 4 days
+		$program = new Program($this->items, 4);
+		// And I fetch the updated items
+		$items = $program->getItems();
+		// And I grab the test item
+		$item = $items["Test 1"];
+		// Then the test item should have the correct sellIn and quality
+		assert($item->sellIn == 6, "sellIn check");
+		assert($item->quality == 0, "quality check");
+	}
 
 	/*public function testX()
 	{

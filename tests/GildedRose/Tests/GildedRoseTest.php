@@ -128,14 +128,32 @@ class GildedRoseTest extends TestCase
 	public function testAgedBrie()
 	{
 		// Given we are testing the "Aged Brie" item
-		// When I run the program for 1 day
 		$initialQuality = $this->items["Aged Brie"]["quality"];
+		// When I run the program for 1 day
 		$program = new Program($this->items, 1);
 		// And I fetch the updated items
 		$items = $program->getItems();
 		// And I grab the test item
 		$item = $items["Aged Brie"];
 		assert($item->quality > $initialQuality, "Aged Brie increase check");
+	}
+
+	/**
+	 * "Sulfuras", being a legendary item, never has to be sold or decreases in Quality
+	 */
+	public function testSulfuras()
+	{
+		// Given we are testing the "Sulfuras, Hand of Ragnaros" item
+		$initialState = $this->items["Sulfuras, Hand of Ragnaros"];
+		// When I run the program for 5 days
+		$program = new Program($this->items, 5);
+		// And I fetch the updated items
+		$items = $program->getItems();
+		// And I grab the test item
+		$item = $items["Sulfuras, Hand of Ragnaros"];
+		// Then the sell by date and quality should not have changed
+		assert($initialState["sellIn"] == $item->sellIn, "Sulfuras sellIn check");
+		assert($initialState["quality"] == $item->quality, "Sulfuras quality check");
 	}
 
 	/*public function testX()

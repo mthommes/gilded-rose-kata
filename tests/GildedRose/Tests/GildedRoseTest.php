@@ -107,13 +107,10 @@ class GildedRoseTest extends TestCase
 
 	/**
 	 * The Quality of an item is never more than 50
-	 * "Aged Brie" actually increases in Quality the older it gets
 	 */
 	public function testQualityCeiling()
 	{
-		// Given we are testing the "Aged Brie" item
 		// When I run the program for 30 days (enough to pass 50 quality for "Aged Brie")
-		$initialQuality = $this->items["Aged Brie"]["quality"];
 		$program = new Program($this->items, 30);
 		// And I fetch the updated items
 		$items = $program->getItems();
@@ -121,8 +118,24 @@ class GildedRoseTest extends TestCase
 		$item = $items["Aged Brie"];
 		// Then the test item should have the correct sellIn and quality
 		assert($item->sellIn == -28, "sellIn check");
-		assert($item->quality > $initialQuality, "Aged Brie increase check");
+		// Should not have gone beyond 50
 		assert($item->quality == 50, "quality check");
+	}
+
+	/**
+	 * "Aged Brie" actually increases in Quality the older it gets
+	 */
+	public function testAgedBrie()
+	{
+		// Given we are testing the "Aged Brie" item
+		// When I run the program for 1 day
+		$initialQuality = $this->items["Aged Brie"]["quality"];
+		$program = new Program($this->items, 1);
+		// And I fetch the updated items
+		$items = $program->getItems();
+		// And I grab the test item
+		$item = $items["Aged Brie"];
+		assert($item->quality > $initialQuality, "Aged Brie increase check");
 	}
 
 	/*public function testX()

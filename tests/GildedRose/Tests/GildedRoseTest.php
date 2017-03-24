@@ -62,7 +62,7 @@ class GildedRoseTest extends TestCase
 	}
 
 	/**
-	 * "Once the sell by date has passed, Quality degrades twice as fast"
+	 * Once the sell by date has passed, Quality degrades twice as fast
 	 */
 	public function testQualityRapidDegradation()
 	{
@@ -84,7 +84,7 @@ class GildedRoseTest extends TestCase
 	}
 
 	/**
-	 * "The Quality of an item is never negative"
+	 * The Quality of an item is never negative
 	 */
 	public function testQualityNeverNegative()
 	{
@@ -103,6 +103,26 @@ class GildedRoseTest extends TestCase
 		// Then the test item should have the correct sellIn and quality
 		assert($item->sellIn == 6, "sellIn check");
 		assert($item->quality == 0, "quality check");
+	}
+
+	/**
+	 * The Quality of an item is never more than 50
+	 * "Aged Brie" actually increases in Quality the older it gets
+	 */
+	public function testQualityCeiling()
+	{
+		// Given we are testing the "Aged Brie" item
+		// When I run the program for 30 days (enough to pass 50 quality for "Aged Brie")
+		$initialQuality = $this->items["Aged Brie"]["quality"];
+		$program = new Program($this->items, 30);
+		// And I fetch the updated items
+		$items = $program->getItems();
+		// And I grab the test item
+		$item = $items["Aged Brie"];
+		// Then the test item should have the correct sellIn and quality
+		assert($item->sellIn == -28, "sellIn check");
+		assert($item->quality > $initialQuality, "Aged Brie increase check");
+		assert($item->quality == 50, "quality check");
 	}
 
 	/*public function testX()

@@ -213,10 +213,11 @@ class Program
         ));
 
         for ($i = 1; $i <= $days; $i++) {
-            $app->UpdateQuality();
             echo "-------- day $i --------\n";
             echo sprintf("%50s - %7s - %7s\n", "Name", "SellIn", "Quality");
             foreach ($app->items as $item) {
+								$itemClient = new ItemClient($item);
+								$item = $itemClient->itemType->item;
                 echo sprintf("%50s - %7d - %7d\n", $item->name, $item->sellIn, $item->quality);
             }
         }
@@ -225,13 +226,5 @@ class Program
     public function __construct(array $items)
     {
         $this->items = $items;
-    }
-
-    public function UpdateQuality()
-    {
-        for ($i = 0; $i < count($this->items); $i++) {
-            $itemClient = new ItemClient($this->items[$i]);
-            $this->items[$i] = $itemClient->itemType->item;
-        }
     }
 }

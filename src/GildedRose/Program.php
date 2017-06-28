@@ -187,7 +187,11 @@ class ItemClient {
 				$this->itemType = new Conjured($item);
 			break;
 		}
-		return $this->itemType->UpdateQuality();
+	}
+
+	public function UpdateQuality() {
+		$newItem = $this->itemType->UpdateQuality();
+		return $newItem;
 	}
 }
 
@@ -217,7 +221,7 @@ class Program
             echo sprintf("%50s - %7s - %7s\n", "Name", "SellIn", "Quality");
             foreach ($app->items as $item) {
 								$itemClient = new ItemClient($item);
-								$item = $itemClient->itemType->item;
+								$item = $itemClient->UpdateQuality();
                 echo sprintf("%50s - %7d - %7d\n", $item->name, $item->sellIn, $item->quality);
             }
         }

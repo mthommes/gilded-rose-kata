@@ -45,6 +45,91 @@ namespace GildedRose;
  * 50, however "Sulfuras" is a legendary item and as such its Quality is 80 and
  * it never alters.
  */
+
+interface ItemInterface {
+	public function updateQuality($quality);
+	public function updateSellIn($sellIn);
+}
+
+class Basic implements ItemInterface {
+	public function updateQuality($quality) {
+		return $quality;
+	}
+	public function updateSellIn($sellIn) {
+		return $sellIn;
+	}
+}
+
+class Aged implements ItemInterface {
+	public function updateQuality($quality) {
+		return $quality;
+	}
+	public function updateSellIn($sellIn) {
+		return $sellIn;
+	}
+}
+
+class Legendary implements ItemInterface {
+	public function updateQuality($quality) {
+		return $quality;
+	}
+	public function updateSellIn($sellIn) {
+		return $sellIn;
+	}
+}
+
+class Conjured implements ItemInterface {
+	public function updateQuality($quality) {
+		return $quality;
+	}
+	public function updateSellIn($sellIn) {
+		return $sellIn;
+	}
+}
+
+class ItemType {
+	private $itemInterface;
+
+	public function __construct($itemName) {
+		switch ($itemName) {
+			case "+5 Dexterity Vest":
+			case "Elixir of the Mongoose":
+			case "Backstage passes to a TAFKAL80ETC concert":
+				$this->itemInterface = new Basic;
+			break;
+			case "Aged Brie":
+				$this->itemInterface = new Aged;
+			break;
+			case "Sulfuras, Hand of Ragnaros":
+				$this->itemInterface = new Legendary;
+			break;
+			case "Conjured Mana Cake":
+				$this->itemInterface = new Conjured;
+			break;
+		}
+	}
+
+	public function getItemInterface() {
+		return $this->itemInterface;
+	}
+}
+
+class ItemClient {
+	private $itemType = "";
+
+	public function setItemType(ItemInterface $itemType) {
+		$this->itemType = $itemType;
+	}
+
+	public function getQuality($quality) {
+		return $this->itemType->updateQuality($quality);
+	}
+
+	public function getSellIn($sellIn) {
+		return $this->itemType->updateSellIn($sellIn);
+	}
+}
+
 class Program
 {
     private $items = array();
@@ -84,6 +169,14 @@ class Program
     public function UpdateQuality()
     {
         for ($i = 0; $i < count($this->items); $i++) {
+
+						$client = new ItemClient;
+						$itemType = new ItemType($this->items[$i]->name);
+						$itemInterface = $itemType->getItemInterface();
+						$client->setItemType($itemInterface);
+						$quality = $client->getQuality($this->items[$i]->quality);
+						$sellIn = $client->getSellIn($this->items[$i]->sellIn);
+
             if ($this->items[$i]->name != "Aged Brie" && $this->items[$i]->name != "Backstage passes to a TAFKAL80ETC concert") {
                 if ($this->items[$i]->quality > 0) {
                     if ($this->items[$i]->name != "Sulfuras, Hand of Ragnaros") {

@@ -47,152 +47,152 @@ namespace GildedRose;
  */
 
 interface ItemInterface {
-  public function UpdateQuality();
+	public function UpdateQuality();
 }
 
 class Dexterity implements ItemInterface {
-  public $item;
-  public function __construct(Item $item) {
-    $this->item = $item;
-  }
-  public function UpdateQuality() {
-    if ($this->item->quality > 0) {
-      $this->item->quality -= 1;
-    }
-    $this->item->sellIn -= 1;
-    if ($this->item->sellIn < 0) {
-      if ($this->item->quality > 0) {
-        $this->item->quality -= 1;
-      }
-    }
-    return $this->item;
-  }
+	public $item;
+	public function __construct(Item $item) {
+		$this->item = $item;
+	}
+	public function UpdateQuality() {
+		if ($this->item->quality > 0) {
+			$this->item->quality -= 1;
+		}
+		$this->item->sellIn -= 1;
+		if ($this->item->sellIn < 0) {
+			if ($this->item->quality > 0) {
+				$this->item->quality -= 1;
+			}
+		}
+		return $this->item;
+	}
 }
 
 class Elixir implements ItemInterface {
-  public $item;
-  public function __construct(Item $item) {
-    $this->item = $item;
-  }
-  public function UpdateQuality() {
-    if ($this->item->quality > 0) {
-      $this->item->quality -= 1;
-    }
-    $this->item->sellIn -= 1;
-    if ($this->item->sellIn < 0) {
-      if ($this->item->quality > 0) {
-        $this->item->quality -= 1;
-      }
-    }
-    return $this->item;
-  }
+	public $item;
+	public function __construct(Item $item) {
+		$this->item = $item;
+	}
+	public function UpdateQuality() {
+		if ($this->item->quality > 0) {
+			$this->item->quality -= 1;
+		}
+		$this->item->sellIn -= 1;
+		if ($this->item->sellIn < 0) {
+			if ($this->item->quality > 0) {
+				$this->item->quality -= 1;
+			}
+		}
+		return $this->item;
+	}
 }
 
 class Backstage implements ItemInterface {
-  public $item;
-  public function __construct(Item $item) {
-    $this->item = $item;
+	public $item;
+	public function __construct(Item $item) {
+		$this->item = $item;
 	}
-  public function UpdateQuality() {
-    if ($this->item->quality < 50) {
-      $this->item->quality += 1;
-      if ($this->item->sellIn < 11) {
-        if ($this->item->quality < 50) {
-          $this->item->quality += 1;
-        }
-      }
-      if ($this->item->sellIn < 6) {
-        if ($this->item->quality < 50) {
-          $this->item->quality += 1;
-        }
-      }
-    }
-    $this->item->sellIn -= 1;
-    if ($this->item->sellIn < 0) {
-      $this->item->quality = 0;
-    }
-    return $this->item;
-  }
+	public function UpdateQuality() {
+		if ($this->item->quality < 50) {
+			$this->item->quality += 1;
+			if ($this->item->sellIn < 11) {
+					if ($this->item->quality < 50) {
+							$this->item->quality += 1;
+					}
+			}
+			if ($this->item->sellIn < 6) {
+					if ($this->item->quality < 50) {
+							$this->item->quality += 1;
+					}
+			}
+		}
+		$this->item->sellIn -= 1;
+		if ($this->item->sellIn < 0) {
+			$this->item->quality = 0;
+		}
+		return $this->item;
+	}
 }
 
 class Aged implements ItemInterface {
-  public $item;
-  public function __construct(Item $item) {
-    $this->item = $item;
-  }
-  public function UpdateQuality() {
-    if ($this->item->quality < 50) {
-      $this->item->quality += 1;
-    }
-    $this->item->sellIn -= 1;
-    if ($this->item->sellIn < 0) {
-      if ($this->item->quality < 50) {
-        $this->item->quality += 1;
-      }
-    }
-    return $this->item;
-  }
+	public $item;
+	public function __construct(Item $item) {
+		$this->item = $item;
+	}
+	public function UpdateQuality() {
+		if ($this->item->quality < 50) {
+			$this->item->quality += 1;
+		}
+		$this->item->sellIn -= 1;
+		if ($this->item->sellIn < 0) {
+			if ($this->item->quality < 50) {
+					$this->item->quality += 1;
+			}
+		}
+		return $this->item;
+	}
 }
 
 class Legendary implements ItemInterface {
-  public $item;
-  public function __construct(Item $item) {
-    $this->item = $item;
-  }
-  public function UpdateQuality() {
-    return $this->item;
-  }
+	public $item;
+	public function __construct(Item $item) {
+		$this->item = $item;
+	}
+	public function UpdateQuality() {
+		return $this->item;
+	}
 }
 
 class Conjured implements ItemInterface {
-  public $item;
-  public function __construct(Item $item) {
-    $this->item = $item;
-  }
-  public function UpdateQuality() {
-    if ($this->item->quality > 0) {
-      $this->item->quality -= 1;
-    }
-    $this->item->sellIn -= 1;
-    if ($this->item->sellIn < 0) {
-      if ($this->item->quality > 0) {
-        $this->item->quality -= 1;
-      }
-    }
-    return $this->item;
-  }
+	public $item;
+	public function __construct(Item $item) {
+		$this->item = $item;
+	}
+	public function UpdateQuality() {
+		if ($this->item->quality > 0) {
+			$this->item->quality -= 1;
+		}
+		$this->item->sellIn -= 1;
+		if ($this->item->sellIn < 0) {
+			if ($this->item->quality > 0) {
+				$this->item->quality -= 1;
+			}
+		}
+		return $this->item;
+	}
 }
 
 class ItemClient {
-  public $itemType;
+	public $itemType;
 
-  public function __construct(Item $item) {
-    switch ($item->name) {
-      case "+5 Dexterity Vest":
-        $this->itemType = new Dexterity($item);
-      break;
-      case "Elixir of the Mongoose":
-        $this->itemType = new Elixir($item);
-      break;
-      case "Backstage passes to a TAFKAL80ETC concert":
-        $this->itemType = new Backstage($item);
-      break;
-      case "Aged Brie":
-        $this->itemType = new Aged($item);
-      break;
-      case "Sulfuras, Hand of Ragnaros":
-        $this->itemType = new Legendary($item);
-      break;
-      case "Conjured Mana Cake":
-        $this->itemType = new Conjured($item);
-      break;
-    }
-  }
+	public function __construct(Item $item) {
+		switch ($item->name) {
+			case "+5 Dexterity Vest":
+				$this->itemType = new Dexterity($item);
+			break;
+			case "Elixir of the Mongoose":
+				$this->itemType = new Elixir($item);
+			break;
+			case "Backstage passes to a TAFKAL80ETC concert":
+				$this->itemType = new Backstage($item);
+			break;
+			case "Aged Brie":
+				$this->itemType = new Aged($item);
+			break;
+			case "Sulfuras, Hand of Ragnaros":
+				$this->itemType = new Legendary($item);
+			break;
+			case "Conjured Mana Cake":
+				$this->itemType = new Conjured($item);
+			break;
+		}
+	}
 
-  public function UpdateQuality() {
-    $newItem = $this->itemType->UpdateQuality();
-    return $newItem;
-  }
+	public function UpdateQuality() {
+		$newItem = $this->itemType->UpdateQuality();
+		return $newItem;
+	}
 }
 
 class Program
@@ -220,8 +220,8 @@ class Program
             echo "-------- day $i --------\n";
             echo sprintf("%50s - %7s - %7s\n", "Name", "SellIn", "Quality");
             foreach ($app->items as $item) {
-                $itemClient = new ItemClient($item);
-                $item = $itemClient->UpdateQuality();
+								$itemClient = new ItemClient($item);
+								$item = $itemClient->UpdateQuality();
                 echo sprintf("%50s - %7d - %7d\n", $item->name, $item->sellIn, $item->quality);
             }
         }

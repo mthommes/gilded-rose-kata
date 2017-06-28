@@ -170,12 +170,12 @@ class Program
     {
         for ($i = 0; $i < count($this->items); $i++) {
 
-						$client = new ItemClient;
-						$itemType = new ItemType($this->items[$i]->name);
-						$itemInterface = $itemType->getItemInterface();
-						$client->setItemType($itemInterface);
-						$quality = $client->getQuality($this->items[$i]->quality);
-						$sellIn = $client->getSellIn($this->items[$i]->sellIn);
+            $client = new ItemClient;
+            $itemType = new ItemType($this->items[$i]->name);
+            $itemInterface = $itemType->getItemInterface();
+            $client->setItemType($itemInterface);
+            $quality = $client->getQuality($this->items[$i]->quality);
+            $sellIn = $client->getSellIn($this->items[$i]->sellIn);
 
             if ($this->items[$i]->name != "Aged Brie" && $this->items[$i]->name != "Backstage passes to a TAFKAL80ETC concert") {
                 if ($this->items[$i]->quality > 0) {

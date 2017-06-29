@@ -220,8 +220,8 @@ class Program
             echo "-------- day $i --------\n";
             echo sprintf("%50s - %7s - %7s\n", "Name", "SellIn", "Quality");
             foreach ($app->items as $item) {
-								$itemClient = new ItemClient($item);
-								$item = $itemClient->UpdateQuality();
+                $itemClient = new ItemClient($item);
+                $item = $itemClient->UpdateQuality();
                 echo sprintf("%50s - %7d - %7d\n", $item->name, $item->sellIn, $item->quality);
             }
         }

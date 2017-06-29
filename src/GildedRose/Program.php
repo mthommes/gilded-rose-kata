@@ -47,7 +47,7 @@ namespace GildedRose;
  */
 
 interface ItemInterface {
-	public function UpdateQuality();
+    public function UpdateQuality();
 }
 
 class Dexterity implements ItemInterface {

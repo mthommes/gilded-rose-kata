@@ -49,22 +49,11 @@ class Program
 {
     private $items = array();
 
-    public static function Main($days = 1)
+    public static function Main(array $items, $days = 1)
     {
         echo "OMGHAI!\n";
 
-        $app = new Program(array(
-              new Item(array( 'name' => "+5 Dexterity Vest",'sellIn' => 10,'quality' => 20)),
-              new Item(array( 'name' => "Aged Brie",'sellIn' => 2,'quality' => 0)),
-              new Item(array( 'name' => "Elixir of the Mongoose",'sellIn' => 5,'quality' => 7)),
-              new Item(array( 'name' => "Sulfuras, Hand of Ragnaros",'sellIn' => 0,'quality' => 80)),
-              new Item(array(
-                     'name' => "Backstage passes to a TAFKAL80ETC concert",
-                     'sellIn' => 15,
-                     'quality' => 20
-              )),
-              new Item(array('name' => "Conjured Mana Cake",'sellIn' => 3,'quality' => 6)),
-        ));
+        $app = new Program($items);
 
         for ($i = 1; $i <= $days; $i++) {
             echo "-------- day $i --------\n";

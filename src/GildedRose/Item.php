@@ -19,6 +19,7 @@ class Item
 }
 
 interface ItemInterface {
+    // Require each implementation to define this method
     public function UpdateQuality();
 }
 
@@ -26,6 +27,8 @@ class ItemClient {
     public $itemType;
 
     public function __construct(Item $item) {
+        // Determine the type of each item based on it's name
+        // Then load the specific class that implements ItemInterface and determine quality
         switch ($item->name) {
             case "+5 Dexterity Vest":
                 $this->itemType = new Dexterity($item);
@@ -49,6 +52,7 @@ class ItemClient {
     }
 
     public function UpdateQuality() {
+        // Call the ItemInterface UpdateQuality method (determined by the item type)
         $newItem = $this->itemType->UpdateQuality();
         return $newItem;
     }

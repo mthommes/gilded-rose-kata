@@ -4,6 +4,7 @@ namespace GildedRose\Tests;
 
 use PHPUnit\Framework\TestCase;
 use GildedRose\Item;
+use GildedRose\ItemClient;
 use GildedRose\Program;
 
 class GildedRoseTest extends TestCase {
@@ -34,19 +35,18 @@ class GildedRoseTest extends TestCase {
 	/**
 	 * Once the sell by date has passed, Quality degrades twice as fast
 	 */
-	public function XtestQualityRapidDegradation() {
+	public function testQualityRapidDegradation() {
 		// Given a new item to test
-		$this->items["Test 1"] = array(
-			"name" => "Test 1",
+		$item = new Item(array(
+			"name" => "Elixir of the Mongoose",
 			"sellIn" => 1,
 			"quality" => 15
-		);
+		));
 		// When I run the program for 3 days
-		$program = Program::main(3);
-		// And I fetch the updated items
-		$items = $program->getItems();
-		// And I grab the test item
-		$item = $items["Test 1"];
+		for ($i = 1; $i <= 3; $i++) {
+    	$itemClient = new ItemClient($item);
+			$item = $itemClient->UpdateQuality();
+		}
 		// Then the test item should have the correct sellIn and quality
 		assert($item->sellIn == -2, "sellIn check");
 		assert($item->quality == 10, "quality check");

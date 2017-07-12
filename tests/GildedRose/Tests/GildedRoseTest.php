@@ -36,7 +36,7 @@ class GildedRoseTest extends TestCase {
 	 * Once the sell by date has passed, Quality degrades twice as fast
 	 */
 	public function testQualityRapidDegradation() {
-		// Given a new item to test
+		// Given an item to test (of type "Elixir")
 		$item = new Item(array(
 			"name" => "Elixir of the Mongoose",
 			"sellIn" => 1,
@@ -55,19 +55,18 @@ class GildedRoseTest extends TestCase {
 	/**
 	 * The Quality of an item is never negative
 	 */
-	public function XtestQualityNeverNegative() {
-		// Given a new item to test
-		$this->items["Test 1"] = array(
-			"name" => "Test 1",
+	public function testQualityNeverNegative() {
+		// Given an item to test (of type "Elixir")
+		$item = new Item(array(
+			"name" => "Elixir of the Mongoose",
 			"sellIn" => 10,
 			"quality" => 2
-		);
+		));
 		// When I run the program for 4 days
-		$program = Program::main(4);
-		// And I fetch the updated items
-		$items = $program->getItems();
-		// And I grab the test item
-		$item = $items["Test 1"];
+		for ($i = 1; $i <= 4; $i++) {
+    	$itemClient = new ItemClient($item);
+			$item = $itemClient->UpdateQuality();
+		}
 		// Then the test item should have the correct sellIn and quality
 		assert($item->sellIn == 6, "sellIn check");
 		assert($item->quality == 0, "quality check");
@@ -76,13 +75,18 @@ class GildedRoseTest extends TestCase {
 	/**
 	 * The Quality of an item is never more than 50
 	 */
-	public function XtestQualityCeiling() {
+	public function testQualityCeiling() {
+		// Given an item to test (of type "Aged")
+		$item = new Item(array(
+			"name" => "Aged Brie",
+			"sellIn" => 2,
+			"quality" => 0
+		));
 		// When I run the program for 30 days (enough to pass 50 quality for "Aged Brie")
-		$program = Program::main(30);
-		// And I fetch the updated items
-		$items = $program->getItems();
-		// And I grab the test item
-		$item = $items["Aged Brie"];
+		for ($i = 1; $i <= 30; $i++) {
+    	$itemClient = new ItemClient($item);
+			$item = $itemClient->UpdateQuality();
+		}
 		// Then the test item should have the correct sellIn and quality
 		assert($item->sellIn == -28, "sellIn check");
 		// Should not have gone beyond 50
@@ -92,32 +96,40 @@ class GildedRoseTest extends TestCase {
 	/**
 	 * "Aged Brie" actually increases in Quality the older it gets
 	 */
-	public function XtestAgedBrie() {
-		// Given we are testing the "Aged Brie" item
-		$initialQuality = $this->items["Aged Brie"]["quality"];
+	public function testAgedBrie() {
+		// Given an item to test (of type "Aged")
+		$item = new Item(array(
+			"name" => "Aged Brie",
+			"sellIn" => 2,
+			"quality" => 0
+		));
+		$initialQuality = 0;
 		// When I run the program for 1 day
-		$program = Program::main(1);
-		// And I fetch the updated items
-		$items = $program->getItems();
-		// And I grab the test item
-		$item = $items["Aged Brie"];
+		for ($i = 1; $i <= 1; $i++) {
+    	$itemClient = new ItemClient($item);
+			$item = $itemClient->UpdateQuality();
+		}
 		assert($item->quality > $initialQuality, "Aged Brie increase check");
 	}
 
 	/**
 	 * "Sulfuras", being a legendary item, never has to be sold or decreases in Quality
 	 */
-	public function XtestSulfuras() {
-		// Given we are testing the "Sulfuras, Hand of Ragnaros" item
-		$initialState = $this->items["Sulfuras, Hand of Ragnaros"];
+	public function testSulfuras() {
+		// Given an item to test (of type "Sulfuras")
+		$item = new Item(array(
+			"name" => "Sulfuras, Hand of Ragnaros",
+			"sellIn" => 0,
+			"quality" => 80
+		));
+		$initialState = $item;
 		// When I run the program for 5 days
-		$program = Program::main(5);
-		// And I fetch the updated items
-		$items = $program->getItems();
-		// And I grab the test item
-		$item = $items["Sulfuras, Hand of Ragnaros"];
+		for ($i = 1; $i <= 5; $i++) {
+    	$itemClient = new ItemClient($item);
+			$item = $itemClient->UpdateQuality();
+		}
 		// Then the sell by date and quality should not have changed
-		assert($initialState["sellIn"] == $item->sellIn, "Sulfuras sellIn check");
-		assert($initialState["quality"] == $item->quality, "Sulfuras quality check");
+		assert($initialState->sellIn == $item->sellIn, "Sulfuras sellIn check");
+		assert($initialState->quality == $item->quality, "Sulfuras quality check");
 	}
 }

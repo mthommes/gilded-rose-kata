@@ -12,6 +12,7 @@ class GildedRoseTest extends TestCase {
 	private $items;
 
 	public function setUp() {
+		parent::setUp();
 		$this->items = array(
 			new Item(array( 'name' => "+5 Dexterity Vest",'sellIn' => 10,'quality' => 20)),
 			new Item(array( 'name' => "Aged Brie",'sellIn' => 2,'quality' => 0)),
